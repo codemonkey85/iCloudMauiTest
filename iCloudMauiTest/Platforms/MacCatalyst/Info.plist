@@ -26,5 +26,7 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.codemonkey85.cloudmauitest</string>
 </dict>
 </plist>
