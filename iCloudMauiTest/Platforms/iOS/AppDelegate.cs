@@ -13,15 +13,26 @@ public class AppDelegate : MauiUIApplicationDelegate
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 
+    private void LogException(Exception ex)
+    {
+        Console.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+    }
+
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
-        application.RegisterForRemoteNotifications();
+        try
+        {
+            application.RegisterForRemoteNotifications();
 
-        // Get the default public and private databases for
-        // the application
-        PublicDatabase = CKContainer.DefaultContainer.PublicCloudDatabase;
-        PrivateDatabase = CKContainer.DefaultContainer.PrivateCloudDatabase;
-
+            // Get the default public and private databases for
+            // the application
+            PublicDatabase = CKContainer.DefaultContainer.PublicCloudDatabase;
+            PrivateDatabase = CKContainer.DefaultContainer.PrivateCloudDatabase;
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
         return true;
     }
 

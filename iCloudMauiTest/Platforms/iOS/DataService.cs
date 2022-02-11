@@ -13,83 +13,116 @@ public class DataService : IDataService
         Console.WriteLine(error.DebugDescription);
     }
 
+    private void LogException(Exception ex)
+    {
+        Console.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+    }
+
     public void CreateRecord()
     {
-        const string ReferenceItemRecordName = "MyRecordName";
-        string name = "This is a test!";
-
-        // Create a new record
-        var newRecord = new CKRecord(ReferenceItemRecordName);
-        newRecord["name"] = (NSString)name;
-
-        // Save it to the database
-        ThisApp.PublicDatabase.SaveRecord(newRecord, (record, err) =>
+        try
         {
-            // Was there an error?
-            if (err != null)
+            const string ReferenceItemRecordName = "MyRecordName";
+            string name = "This is a test!";
+
+            // Create a new record
+            var newRecord = new CKRecord(ReferenceItemRecordName);
+            newRecord["name"] = (NSString)name;
+
+            // Save it to the database
+            ThisApp.PublicDatabase.SaveRecord(newRecord, (record, err) =>
             {
-                LogNsError(err);
-            }
-            Console.WriteLine($"Created record '{record["name"]}'");
-        });
+                // Was there an error?
+                if (err != null)
+                {
+                    LogNsError(err);
+                }
+                Console.WriteLine($"Created record '{record["name"]}'");
+            });
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
     }
 
     public void GetRecord()
     {
-        // Create a record ID and fetch the record from the database
-        var recordID = new CKRecordID("MyRecordName");
-        ThisApp.PublicDatabase.FetchRecord(recordID, (record, err) =>
+        try
         {
-            // Was there an error?
-            if (err != null)
+            // Create a record ID and fetch the record from the database
+            var recordID = new CKRecordID("MyRecordName");
+            ThisApp.PublicDatabase.FetchRecord(recordID, (record, err) =>
             {
-                LogNsError(err);
-            }
-            Console.WriteLine($"Fetched record '{record["name"]}'");
-        });
+                // Was there an error?
+                if (err != null)
+                {
+                    LogNsError(err);
+                }
+                Console.WriteLine($"Fetched record '{record["name"]}'");
+            });
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
     }
 
     public void UpdateRecord()
     {
-        // Create a record ID and fetch the record from the database
-        var recordID = new CKRecordID("MyRecordName");
-        ThisApp.PublicDatabase.FetchRecord(recordID, (record, err) =>
+        try
         {
-            // Was there an error?
-            if (err != null)
+            // Create a record ID and fetch the record from the database
+            var recordID = new CKRecordID("MyRecordName");
+            ThisApp.PublicDatabase.FetchRecord(recordID, (record, err) =>
             {
-                LogNsError(err);
-            }
-            else
-            {
-                // Modify the record
-                record["name"] = (NSString)"New Name";
-
-                // Save changes to database
-                ThisApp.PublicDatabase.SaveRecord(record, (r, e) =>
+                // Was there an error?
+                if (err != null)
                 {
-                    // Was there an error?
-                    if (e != null)
+                    LogNsError(err);
+                }
+                else
+                {
+                    // Modify the record
+                    record["name"] = (NSString)"New Name";
+
+                    // Save changes to database
+                    ThisApp.PublicDatabase.SaveRecord(record, (r, e) =>
                     {
-                        LogNsError(e);
-                    }
-                    Console.WriteLine($"Updated record '{record["name"]}'");
-                });
-            }
-        });
+                        // Was there an error?
+                        if (e != null)
+                        {
+                            LogNsError(e);
+                        }
+                        Console.WriteLine($"Updated record '{record["name"]}'");
+                    });
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
     }
 
     public void DeleteRecord()
     {
-        var recordID = new CKRecordID("MyRecordName");
-        ThisApp.PublicDatabase.DeleteRecord(recordID, (recordId, err) =>
+        try
         {
-            // Was there an error?
-            if (err != null)
+            var recordID = new CKRecordID("MyRecordName");
+            ThisApp.PublicDatabase.DeleteRecord(recordID, (recordId, err) =>
             {
-                LogNsError(err);
-            }
-            Console.WriteLine($"Deleted record id '{recordId}'");
-        });
+                // Was there an error?
+                if (err != null)
+                {
+                    LogNsError(err);
+                }
+                Console.WriteLine($"Deleted record id '{recordId}'");
+            });
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
     }
 }
