@@ -1,1 +1,1 @@
-dotnet build BlazorMaui2/BlazorMaui2.csproj -t:Run -f net6.0-ios
+dotnet build ../iCloudMauiTest.csproj -t:Run -f net6.0-ios
